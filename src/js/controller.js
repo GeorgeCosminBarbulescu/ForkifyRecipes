@@ -8,9 +8,12 @@ const recipeContainer = document.querySelector('.recipe');
 
 const controlRecipe = async function () {
   try {
+    const id = window.location.hash.slice(1);
+    console.log(id);
+
     // 1) Loading recipe
     const res = await fetch(
-      'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bca3b'
+      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
     );
     const data = await res.json();
     console.log(res, data);
@@ -75,9 +78,9 @@ const controlRecipe = async function () {
         </div>
 
         <div class="recipe__user-generated">
-          <svg>
+          <!--<svg>
             <use href="${icons}#icon-user"></use>
-          </svg>
+          </svg>-->
         </div>
         <button class="btn--round">
           <svg class="">
@@ -138,3 +141,8 @@ const controlRecipe = async function () {
   }
 };
 controlRecipe();
+
+// Taking the hash for id and then Listening for load event
+['hashchange', 'load'].forEach(ev =>
+  window.addEventListener(ev, controlRecipe)
+);
