@@ -1,35 +1,13 @@
+import View from './View';
+// import icons from '../img/icons.svg'; // Parcel 1 import
 import icons from 'url:../../img/icons.svg'; // Parcel 2 import
 import { Fraction } from 'fractional';
 
-class RecipeView {
+class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
-  _data;
-
-  _render(data) {
-    this._data = data;
-    const markup = this._generateMarkup();
-    this._clear();
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
-  }
-  renderSpinner() {
-    const markup = `
-     <div class="spinner">
-       <svg>
-         <use href="${icons}#icon-loader"></use>
-       </svg>
-    </div>
-    `;
-    this._clear();
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
-  }
-
-  _clear() {
-    this._parentElement.innerHTML = '';
-  }
-
-  _renderMarkupForParentElement() {
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
-  }
+  _errorMessage =
+    '🤖: We could not find that recipe 😿. Please try another one!';
+  _successMessage = '🤖: Recipe found 😸. Congratulations!';
 
   // Publisher - Subscriber Design Patern: Publisher, the code that knows when to react
   addHandlerRender(handler) {
