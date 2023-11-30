@@ -1,4 +1,8 @@
-import icons from 'url:../img/icons.svg'; // Parcel 2 import url
+import icons from 'url:../img/icons.svg'; // Parcel 2 import
+import { Fraction } from 'fractional';
+
+import 'core-js/stable'; // For polyfilling everything else, for older version of internet browsers
+import 'regenerator-runtime/runtime'; // For polyfilling async-await, for older version of internet
 
 const recipeContainer = document.querySelector('.recipe');
 
@@ -6,7 +10,7 @@ const controlRecipe = async function () {
   try {
     // 1) Loading recipe
     const res = await fetch(
-      'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
+      'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bca3b'
     );
     const data = await res.json();
     console.log(res, data);
@@ -29,7 +33,9 @@ const controlRecipe = async function () {
     // 2) Render recipe
     const markup = `
       <figure class="recipe__fig">
-        <img src="${recipe.imageUrl}" alt="${recipe.title}" class="recipe__img" />
+        <img src="${recipe.imageUrl}" alt="${
+      recipe.title
+    }" class="recipe__img" />
         <h1 class="recipe__title">
           <span>${recipe.title}</span>
         </h1>
@@ -40,14 +46,18 @@ const controlRecipe = async function () {
           <svg class="recipe__info-icon">
             <use href="${icons}#icon-clock"></use>
           </svg>
-          <span class="recipe__info-data recipe__info-data--minutes">${recipe.cookingTime}</span>
+          <span class="recipe__info-data recipe__info-data--minutes">${
+            recipe.cookingTime
+          }</span>
           <span class="recipe__info-text">minutes</span>
         </div>
         <div class="recipe__info">
           <svg class="recipe__info-icon">
             <use href="${icons}#icon-users"></use>
           </svg>
-          <span class="recipe__info-data recipe__info-data--people">${recipe.servings}</span>
+          <span class="recipe__info-data recipe__info-data--people">${
+            recipe.servings
+          }</span>
           <span class="recipe__info-text">servings</span>
 
           <div class="recipe__info-buttons">
@@ -79,27 +89,24 @@ const controlRecipe = async function () {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-          <li class="recipe__ingredient">
-            <svg class="recipe__icon">
-              <use href="${icons}#icon-check"></use>
-            </svg>
-            <div class="recipe__quantity">1000</div>
-            <div class="recipe__description">
-              <span class="recipe__unit">g</span>
-              pasta
-            </div>
-          </li>
-
-          <li class="recipe__ingredient">
-            <svg class="recipe__icon">
-              <use href="${icons}#icon-check"></use>
-            </svg>
-            <div class="recipe__quantity">0.5</div>
-            <div class="recipe__description">
-              <span class="recipe__unit">cup</span>
-              ricotta cheese
-            </div>
-          </li>
+          ${recipe.ingredients
+            .map(function (ing) {
+              return `
+             <li class="recipe__ingredient">
+              <svg class="recipe__icon">
+                <use href="${icons}#icon-check"></use>
+              </svg>
+              <div class="recipe__quantity">${
+                ing.quantity ? new Fraction(ing.quantity).toString() : ''
+              }</div>
+              <div class="recipe__description">
+                <span class="recipe__unit">${ing.unit}</span>
+                ${ing.description}
+              </div>
+             </li>
+            `;
+            })
+            .join('')}
         </ul>
       </div>
 
@@ -107,7 +114,9 @@ const controlRecipe = async function () {
         <h2 class="heading--2">How to cook it</h2>
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
-          <span class="recipe__publisher">${recipe.publisher}</span>. Please check out
+          <span class="recipe__publisher">${
+            recipe.publisher
+          }</span>. Please check out
           directions at their website.
         </p>
         <a
