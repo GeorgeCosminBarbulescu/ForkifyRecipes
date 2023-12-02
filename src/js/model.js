@@ -1,6 +1,5 @@
-import { API_URL } from './config';
+import { API_URL, RES_PER_PAGE } from './config';
 import { getJSON } from './helpers';
-import { RES_PER_PAGE } from './config';
 
 export const state = {
   recipe: {},
@@ -52,6 +51,7 @@ export const loadSearchResults = async function (query) {
     });
     console.log(state.search.results);
   } catch (err) {
+    console.error(`${err} 💥💥💥💥`);
     throw err;
   }
 };
@@ -59,8 +59,17 @@ export const loadSearchResults = async function (query) {
 export const getSearchResultsPage = function (page = state.search.page) {
   state.search.page = page;
 
-  const start = (page - 1) * state.search.resultsPerPage; // 0
-  const end = page * state.search.resultsPerPage; // 9
+  const start = (page - 1) * state.search.resultsPerPage; // 0;
+  const end = page * state.search.resultsPerPage; // 9;
 
   return state.search.results.slice(start, end);
+};
+
+export const updateServings = function (newServings) {
+  state.recipe.ingredients.forEach(ing => {
+    ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
+    // newQt = oldQt * newServings / OldServings // 2 * 8 / 4 = 4
+  });
+
+  state.recipe.servings = newServings;
 };

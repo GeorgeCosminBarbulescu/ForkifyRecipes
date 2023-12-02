@@ -7,18 +7,20 @@ import searchView from './views/searchView.js';
 import 'core-js/stable'; // For polyfilling everything else, for older version of internet browsers
 import 'regenerator-runtime/runtime'; // For polyfilling async-await, for older version of internet
 
-// if (module.hot) module.hot.accept();
+if (module.hot) module.hot.accept();
 
 const controlRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);
-    console.log(id);
 
     // Guard clause
     if (!id) return;
 
     // Render spinner
     recipeView.renderSpinner();
+
+    // 0) Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
 
     // 1) Loading recipe
     await model.loadRecipe(id);
@@ -32,7 +34,7 @@ const controlRecipe = async function () {
 
 const controlSearchResults = async function () {
   try {
-    resultsView.renderSpinner();
+    // resultsView.renderSpinner();
 
     // 1) Get search query
     const query = searchView.getQuery();
@@ -43,13 +45,13 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3) Render search results
-    // resultsView.render(model.state.search.results);
     resultsView.render(model.getSearchResultsPage());
 
     // 4) Render initial pagination buttons
     paginationView.render(model.state.search);
   } catch (err) {
-    console.error(err);
+    console.error(`${err} 💥💥💥💥`);
+    throw err;
   }
 };
 
@@ -61,10 +63,19 @@ const controlPagination = function (goToPage) {
   paginationView.render(model.state.search);
 };
 
+const controlServings = function (newServings) {
+  // Update the recipe servings (in state)
+  model.updateServings(newServings);
+
+  // Update the recipe view
+  recipeView.update(model.state.recipe);
+};
+
 // Initiate handlers
 const init = function () {
   // Publisher - Subscriber Design Patern: Subscriber, the code that wants when to react
   recipeView.addHandlerRender(controlRecipe);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };
