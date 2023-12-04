@@ -22,6 +22,8 @@ const controlRecipe = async function () {
 
     // 0) Update results view to mark selected search result
     resultsView.update(model.getSearchResultsPage());
+
+    // 1) Updating the bookmarks view
     bookmarksView.update(model.state.bookmarks);
 
     // 1) Loading recipe
@@ -85,9 +87,14 @@ const controlAddBookmark = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlBookmark = function () {
+  bookmarksView.render(model.state.bookmarks);
+};
+
 // Initiate handlers
 const init = function () {
   // Publisher - Subscriber Design Patern: Subscriber, the code that wants when to react
+  bookmarksView.addHandlerRender(controlBookmark);
   recipeView.addHandlerRender(controlRecipe);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);

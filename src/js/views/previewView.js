@@ -1,5 +1,5 @@
 import View from './View';
-import icons from 'url:../../img/icons.svg'; // Parcel 2 import
+import icons from 'url:../../img/icons.svg'; // Parcel 2
 
 class PreviewView extends View {
   _parentElement = '';
