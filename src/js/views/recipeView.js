@@ -18,12 +18,19 @@ class RecipeView extends View {
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--update-servings');
-      console.log(btn);
       // Guard clause
       if (!btn) return;
-
       const { updateTo } = btn.dataset;
-      if (+updateTo > 0) handler(+updateTo);
+      if (+updateTo > 1) handler(+updateTo);
+    });
+  }
+
+  addHandlerAddBookmark(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--bookmark');
+      // Guard clause
+      if (!btn) return;
+      handler();
     });
   }
 
@@ -35,6 +42,7 @@ class RecipeView extends View {
     const recipeIngredients = this._data.ingredients;
     const recipePublisher = this._data.publisher;
     const recipeSourceUrl = this._data.sourceUrl;
+    const bookmarkedRecipe = this._data.bookmarked;
     return `
       <figure class="recipe__fig">
         <img src="${recipeImageUrl}" alt="${recipeTitle}" class="recipe__img" />
@@ -81,9 +89,11 @@ class RecipeView extends View {
             <use href="${icons}#icon-user"></use>
           </svg>-->
         </div>
-        <button class="btn--round">
+        <button class="btn--round btn--bookmark">
           <svg class="">
-            <use href="${icons}#icon-bookmark-fill"></use>
+            <use href="${icons}#icon-bookmark${
+      bookmarkedRecipe ? '-fill' : ''
+    }"></use>
           </svg>
         </button>
       </div>
