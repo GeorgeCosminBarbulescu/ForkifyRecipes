@@ -1,4 +1,4 @@
-import View from './View';
+import View from './View.js';
 // import icons from '../img/icons.svg'; // Parcel 1 import
 import icons from 'url:../../img/icons.svg'; // Parcel 2 import
 import { Fraction } from 'fractional';
@@ -43,6 +43,8 @@ class RecipeView extends View {
     const recipePublisher = this._data.publisher;
     const recipeSourceUrl = this._data.sourceUrl;
     const bookmarkedRecipe = this._data.bookmarked;
+    const recipeKey = this._data.key;
+
     return `
       <figure class="recipe__fig">
         <img src="${recipeImageUrl}" alt="${recipeTitle}" class="recipe__img" />
@@ -84,10 +86,10 @@ class RecipeView extends View {
           </div>
         </div>
 
-        <div class="recipe__user-generated">
-          <!--<svg>
+        <div class="recipe__user-generated ${recipeKey ? '' : 'hidden'}">
+          <svg>
             <use href="${icons}#icon-user"></use>
-          </svg>-->
+          </svg>
         </div>
         <button class="btn--round btn--bookmark">
           <svg class="">

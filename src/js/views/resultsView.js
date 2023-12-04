@@ -1,4 +1,4 @@
-import View from './View';
+import View from './View.js';
 import previewView from './previewView.js';
 import icons from 'url:../../img/icons.svg'; // Parcel 2 import
 
