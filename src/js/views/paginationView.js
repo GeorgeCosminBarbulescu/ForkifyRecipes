@@ -19,61 +19,97 @@ class PaginationView extends View {
     const numPages = Math.ceil(
       this._data.results.length / this._data.resultsPerPage
     );
+    // console.log(numPages);
+
+    const btnNextMarkup = `
+    <button data-goto="${
+      curPage + 1
+    }" class="btn--inline pagination__btn--next">
+        <span>Page ${curPage + 1}</span>
+        <svg class="search__icon">
+          <use href="src/img/icons.svg#icon-arrow-right"></use>
+        </svg>
+      </button>
+    `;
+
+    const btnPrevMarkup = `
+    <button data-goto="${
+      curPage - 1
+    }" class="btn--inline pagination__btn--prev">
+        <svg class="search__icon">
+          <use href="src/img/icons.svg#icon-arrow-left"></use>
+        </svg>
+        <span>Page ${curPage - 1}</span>
+    </button>
+    `;
+
+    const btnCurrentMarkup = `
+    <button class="btn--inline-current-page pagination__btn--prev">
+        <use href="${icons}#icon-arrow-left"></use>
+        <span>Page ${curPage}</span>
+    </button>
+    `;
 
     // Page 1, and there are other pages
     if (curPage === 1 && numPages > 1) {
-      return `
-        <button data-goto="${
-          curPage + 1
-        }" class="btn--inline pagination__btn--next">
-          <span>Page ${curPage + 1}</span>
-          <svg class="search__icon">
-            <use href="${icons}#icon-arrow-right"></use>
-          </svg>
-        </button>
-      `;
+      // return `
+      //   <button data-goto="${
+      //     curPage + 1
+      //   }" class="btn--inline pagination__btn--next">
+      //     <span>Page ${curPage + 1}</span>
+      //     <svg class="search__icon">
+      //       <use href="${icons}#icon-arrow-right"></use>
+      //     </svg>
+      //   </button>
+      // `;
+
+      return btnNextMarkup;
     }
 
     // Last page
     if (curPage === numPages && numPages > 1) {
-      return `
-        <button data-goto="${
-          curPage - 1
-        }" class="btn--inline pagination__btn--prev">
-          <svg class="search__icon">
-            <use href="${icons}#icon-arrow-left"></use>
-          </svg>
-          <span>Page ${curPage - 1}</span>
-        </button>
-      `;
+      // return `
+      //   <button data-goto="${
+      //     curPage - 1
+      //   }" class="btn--inline pagination__btn--prev">
+      //     <svg class="search__icon">
+      //       <use href="${icons}#icon-arrow-left"></use>
+      //     </svg>
+      //     <span>Page ${curPage - 1}</span>
+      //   </button>
+      // `;
+
+      return btnPrevMarkup;
     }
 
     // Other pages
     if (curPage < numPages) {
-      return `
-        <button data-goto="${
-          curPage - 1
-        }" class="btn--inline pagination__btn--prev">
-          <svg class="search__icon">
-            <use href="${icons}#icon-arrow-left"></use>
-          </svg>
-          <span>Page ${curPage - 1}</span>
-        </button>
+      // return `
+      //   <button data-goto="${
+      //     curPage - 1
+      //   }" class="btn--inline pagination__btn--prev">
+      //     <svg class="search__icon">
+      //       <use href="${icons}#icon-arrow-left"></use>
+      //     </svg>
+      //     <span>Page ${curPage - 1}</span>
+      //   </button>
 
-        <button class="btn--inline-current-page pagination__btn--prev">
-            <use href="${icons}#icon-arrow-left"></use>
-          <span>Page ${curPage}</span>
-        </button>
+      //   <button class="btn--inline-current-page pagination__btn--prev">
+      //       <use href="${icons}#icon-arrow-left"></use>
+      //     <span>Page ${curPage}</span>
+      //   </button>
 
-        <button data-goto="${
-          curPage + 1
-        }" class="btn--inline pagination__btn--next">
-          <span>Page ${curPage + 1}</span>
-          <svg class="search__icon">
-            <use href="${icons}#icon-arrow-right"></use>
-          </svg>
-        </button>
-      `;
+      //   <button data-goto="${
+      //     curPage + 1
+      //   }" class="btn--inline pagination__btn--next">
+      //     <span>Page ${curPage + 1}</span>
+      //     <svg class="search__icon">
+      //       <use href="${icons}#icon-arrow-right"></use>
+      //     </svg>
+      //   </button>
+      // `;
+
+      return `${btnPrevMarkup}${btnCurrentMarkup}${btnNextMarkup}`;
     }
 
     // Page 1, and there are no other pages
