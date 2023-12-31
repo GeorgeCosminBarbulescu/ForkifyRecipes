@@ -33,10 +33,12 @@ export const loadRecipe = async function (id) {
   try {
     const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
     state.recipe = createRecipeObject(data);
+    // console.log('Default property names', recipe);
 
     if (state.bookmarks.some(bookmarks => bookmarks.id === id))
       state.recipe.bookmarked = true;
     else state.recipe.bookmarked = false;
+    console.log('Customized properties names', state.recipe);
   } catch (err) {
     // Temp error handling
     console.error(`🤖: 💥💥💥💥 ${err}`);
@@ -49,6 +51,7 @@ export const loadSearchResults = async function (query) {
     state.search.query = query;
 
     const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
+    // console.log('DATA', data);
 
     state.search.results = data.data.recipes.map(rec => {
       return {
@@ -58,6 +61,7 @@ export const loadSearchResults = async function (query) {
         title: rec.title,
         ...(rec.key && { key: rec.key }),
       };
+      // console.log(state.search.results);
     });
     state.search.page = 1;
   } catch (err) {

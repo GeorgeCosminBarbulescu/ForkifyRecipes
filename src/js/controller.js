@@ -125,7 +125,7 @@ const controlAddRecipe = async function (newRecipe) {
 
 // Initiate handlers
 const init = function () {
-  // Publisher - Subscriber Design Patern: Subscriber, the code that wants when to react
+  // Publisher - Subscriber Design Patern: - "controlX" is the "Subscriber" and is the code that wants to react; - "addHandlerX" is the "Publisher" and this is the code that knows when to react
   bookmarksView.addHandlerRender(controlBookmark);
   recipeView.addHandlerRender(controlRecipe);
   recipeView.addHandlerUpdateServings(controlServings);
