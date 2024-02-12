@@ -33,6 +33,16 @@ const controlRecipe = async function () {
 
     // 2) Render recipe
     recipeView.render(model.state.recipe);
+
+    // OPTIONAL (if needed please remove points 3, 4 nd 5)
+    // 3) Load search results
+    await model.loadSearchResults('pizza');
+
+    // 4) Render search results
+    resultsView.render(model.getSearchResultsPage());
+
+    // 5) Render initial pagination buttons
+    paginationView.render(model.state.search);
   } catch (err) {
     recipeView.renderErrorMessage();
   }
