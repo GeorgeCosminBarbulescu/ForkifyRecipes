@@ -6,57 +6,57 @@ class PaginationView extends View {
 
   addHandlerClick(handler) {
     this._parentElement.addEventListener('click', function (e) {
-      const btn = e.target.closest('.btn--inline');
-      if (!btn) return;
+      const paginationButton = e.target.closest('.btn--inline');
+      if (!paginationButton) return;
 
-      const goToPage = +btn.dataset.goto;
+      const goToPage = +paginationButton.dataset.goto;
       handler(goToPage);
     });
   }
 
   _generateMarkup() {
-    const curPage = this._data.page;
-    const numPages = Math.ceil(
+    const currentPage = this._data.page;
+    const numberOfPages = Math.ceil(
       this._data.results.length / this._data.resultsPerPage
     );
-    // console.log(numPages);
+    // console.log(numberOfPages);
 
     const btnNextMarkup = `
     <button data-goto="${
-      curPage + 1
+      currentPage + 1
     }" class="btn--inline pagination__btn--next">
-        <span>Page ${curPage + 1}</span>
+        <span>Page ${currentPage + 1}</span>
         <svg class="search__icon">
-          <use href="src/img/icons.svg#icon-arrow-right"></use>
+          <use href="${icons}#icon-arrow-right"></use>
         </svg>
       </button>
     `;
 
     const btnPrevMarkup = `
     <button data-goto="${
-      curPage - 1
+      currentPage - 1
     }" class="btn--inline pagination__btn--prev">
         <svg class="search__icon">
-          <use href="src/img/icons.svg#icon-arrow-left"></use>
+          <use href="${icons}#icon-arrow-left"></use>
         </svg>
-        <span>Page ${curPage - 1}</span>
+        <span>Page ${currentPage - 1}</span>
     </button>
     `;
 
     const btnCurrentMarkup = `
     <button class="btn--inline-current-page pagination__btn--prev">
         <use href="${icons}#icon-arrow-left"></use>
-        <span>Page ${curPage}</span>
+        <span>Page ${currentPage}</span>
     </button>
     `;
 
     // Page 1, and there are other pages
-    if (curPage === 1 && numPages > 1) {
+    if (currentPage === 1 && numberOfPages > 1) {
       // return `
       //   <button data-goto="${
-      //     curPage + 1
+      //     currentPage + 1
       //   }" class="btn--inline pagination__btn--next">
-      //     <span>Page ${curPage + 1}</span>
+      //     <span>Page ${currentPage + 1}</span>
       //     <svg class="search__icon">
       //       <use href="${icons}#icon-arrow-right"></use>
       //     </svg>
@@ -67,15 +67,15 @@ class PaginationView extends View {
     }
 
     // Last page
-    if (curPage === numPages && numPages > 1) {
+    if (currentPage === numberOfPages && numberOfPages > 1) {
       // return `
       //   <button data-goto="${
-      //     curPage - 1
+      //     currentPage - 1
       //   }" class="btn--inline pagination__btn--prev">
       //     <svg class="search__icon">
       //       <use href="${icons}#icon-arrow-left"></use>
       //     </svg>
-      //     <span>Page ${curPage - 1}</span>
+      //     <span>Page ${currentPage - 1}</span>
       //   </button>
       // `;
 
@@ -83,26 +83,26 @@ class PaginationView extends View {
     }
 
     // Other pages
-    if (curPage < numPages) {
+    if (currentPage < numberOfPages) {
       // return `
       //   <button data-goto="${
-      //     curPage - 1
+      //     currentPage - 1
       //   }" class="btn--inline pagination__btn--prev">
       //     <svg class="search__icon">
       //       <use href="${icons}#icon-arrow-left"></use>
       //     </svg>
-      //     <span>Page ${curPage - 1}</span>
+      //     <span>Page ${currentPage - 1}</span>
       //   </button>
 
       //   <button class="btn--inline-current-page pagination__btn--prev">
       //       <use href="${icons}#icon-arrow-left"></use>
-      //     <span>Page ${curPage}</span>
+      //     <span>Page ${currentPage}</span>
       //   </button>
 
       //   <button data-goto="${
-      //     curPage + 1
+      //     currentPage + 1
       //   }" class="btn--inline pagination__btn--next">
-      //     <span>Page ${curPage + 1}</span>
+      //     <span>Page ${currentPage + 1}</span>
       //     <svg class="search__icon">
       //       <use href="${icons}#icon-arrow-right"></use>
       //     </svg>
